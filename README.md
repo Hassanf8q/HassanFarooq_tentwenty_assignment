@@ -92,39 +92,89 @@ yarn android
 
 ## 📁 Project Structure
 
+The project follows a well-organized, scalable architecture:
+
+### **Root Level**
 ```
-src/
-├── components/           # Reusable UI components
-│   ├── AppText.tsx      # Custom text component with typography
-│   ├── CustomStatusBar.tsx # Status bar management
-│   └── MovieCard.tsx    # Movie card component
-├── screens/             # Screen components
-│   ├── WatchScreen.tsx  # Main movie listing screen
-│   ├── SearchScreen.tsx # Movie search functionality
-│   ├── MovieDetailScreen.tsx # Movie details and booking
-│   ├── SeatBookingScreen.tsx # Date and showtime selection
-│   ├── SeatSelectionScreen.tsx # Interactive seat map
-│   ├── SimpleVideoPlayerScreen.tsx # Video player
-│   └── DashboardScreen.tsx # Dashboard/home screen
-├── navigation/          # Navigation configuration
-│   ├── AppNavigator.tsx # Main navigation setup
-│   ├── types.ts        # Navigation type definitions
-│   └── stacks/          # Stack navigators
-├── context/            # State management
-│   ├── ThemeContext.tsx # Theme management
-│   └── MovieContext.tsx # Movie data management
-├── api/                # API services
-│   ├── movieService.ts  # Movie data API
-│   └── movieTrailerService.ts # Trailer API
-├── hooks/              # Custom React hooks
-│   └── useHideBottomTabs.ts # Bottom tab visibility
-├── types/              # TypeScript type definitions
-├── constants/          # App constants
-│   └── colors.ts       # Color definitions
-└── assets/             # Static assets
-    ├── images/         # Image assets
-    └── fonts/          # Font files
+HassanFarooq_tentwenty_assignment/
+├── src/                    # Source code directory
+├── ios/                    # iOS platform files
+├── android/                # Android platform files
+├── App.tsx                 # Main application entry point
+├── package.json           # Dependencies and scripts
+├── README.md              # Project documentation
+├── CONTRIBUTING.md        # Contribution guidelines
+├── LICENSE                # MIT License
+└── CHANGELOG.md           # Version history
 ```
+
+### **Source Code Structure (`src/`)**
+
+#### **Components** (`src/components/`)
+- `AppText.tsx` - Custom text component with Poppins typography
+- `CustomStatusBar.tsx` - Unified status bar management
+- `MovieCard.tsx` - Reusable movie display component
+
+#### **Screens** (`src/screens/`)
+- `WatchScreen.tsx` - Main movie listing with responsive grid
+- `SearchScreen.tsx` - Movie search with genre filtering
+- `MovieDetailScreen.tsx` - Comprehensive movie information
+- `SeatBookingScreen.tsx` - Date and showtime selection
+- `SeatSelectionScreen.tsx` - Interactive seat map with zoom
+- `SimpleVideoPlayerScreen.tsx` - Full-screen video playback
+- `DashboardScreen.tsx` - Home screen with recommendations
+
+#### **Navigation** (`src/navigation/`)
+- `AppNavigator.tsx` - Main navigation configuration
+- `types.ts` - Navigation type definitions
+- `stacks/` - Individual stack navigators
+  - `WatchStack.tsx` - Watch tab navigation
+  - `DashboardStack.tsx` - Dashboard navigation
+  - `MediaLibraryStack.tsx` - Media library navigation
+  - `MoreStack.tsx` - More options navigation
+
+#### **State Management** (`src/context/`)
+- `ThemeContext.tsx` - Light/dark theme management
+- `MovieContext.tsx` - Movie data and API state
+
+#### **API Services** (`src/api/`)
+- `movieService.ts` - TMDB API integration for movies
+- `movieTrailerService.ts` - Video trailer API calls
+
+#### **Custom Hooks** (`src/hooks/`)
+- `useHideBottomTabs.ts` - Bottom tab visibility management
+
+#### **Type Definitions** (`src/types/`)
+- TypeScript interfaces for movies, navigation, and components
+
+#### **Constants** (`src/constants/`)
+- `colors.ts` - Color palette and theme definitions
+
+#### **Assets** (`src/assets/`)
+- `images/` - Image assets (icons, placeholders)
+- `fonts/` - Poppins font family files
+
+### **Key Architecture Decisions**
+
+#### **📱 Component Organization**
+- **Reusable Components**: Centralized in `components/` directory
+- **Screen Components**: Organized by feature in `screens/`
+- **Custom Hooks**: Shared logic in `hooks/` directory
+
+#### **🔧 State Management**
+- **Context API**: Used for global state (theme, movies)
+- **Local State**: React hooks for component-specific state
+- **API State**: Centralized in context providers
+
+#### **🌐 API Integration**
+- **Service Layer**: Dedicated API service files
+- **Error Handling**: Comprehensive error management
+- **Type Safety**: Full TypeScript integration
+
+#### **🎨 Styling & Theming**
+- **Theme System**: Centralized color and typography management
+- **Responsive Design**: Dynamic layouts for different orientations
+- **Custom Components**: Consistent UI components
 
 ## 🎨 Design System
 
