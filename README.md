@@ -1,97 +1,314 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 🎬 HassanFarooq Movie Booking App
 
-# Getting Started
+A modern React Native movie booking application with comprehensive features for browsing, searching, and booking movie tickets. Built with TypeScript and featuring a beautiful UI with light/dark theme support.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 📱 Features
 
-## Step 1: Start Metro
+### 🎯 Core Functionality
+- **Movie Discovery**: Browse upcoming movies with detailed information
+- **Search & Filter**: Advanced search with genre filtering
+- **Movie Details**: Comprehensive movie information with trailers
+- **Seat Booking**: Interactive seat selection with different pricing tiers
+- **Video Player**: Full-screen trailer playback with YouTube integration
+- **Responsive Design**: Optimized for both portrait and landscape orientations
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### 🎨 UI/UX Features
+- **Theme Support**: Light and dark mode with smooth transitions
+- **Custom Typography**: Poppins font family integration
+- **Interactive Components**: Touch-friendly interface with smooth animations
+- **Status Bar Management**: Consistent status bar handling across all screens
+- **Bottom Tab Navigation**: Intuitive navigation with custom icons
+- **Linear Gradients**: Beautiful gradient overlays for enhanced visuals
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### 🔧 Technical Features
+- **TypeScript**: Full type safety throughout the application
+- **Context API**: Centralized state management for themes and movies
+- **API Integration**: TMDB (The Movie Database) API integration
+- **Custom Hooks**: Reusable logic for common functionality
+- **Error Handling**: Comprehensive error handling and loading states
+- **Performance Optimized**: Efficient rendering with proper memoization
 
-```sh
-# Using npm
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have completed the [React Native Environment Setup](https://reactnative.dev/docs/environment-setup) guide before proceeding.
+
+- **Node.js**: >= 20.0.0
+- **React Native CLI**: Latest version
+- **iOS**: Xcode 14+ (for iOS development)
+- **Android**: Android Studio with SDK 33+ (for Android development)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd HassanFarooq_tentwenty_assignment
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **iOS Setup** (macOS only)
+   ```bash
+   # Install CocoaPods dependencies
+   cd ios && pod install && cd ..
+   ```
+
+4. **Environment Configuration**
+   Create a `.env` file in the root directory:
+   ```env
+   TMDB_API_KEY=your_tmdb_api_key_here
+   TMDB_BASE_URL=https://api.themoviedb.org/3
+   ```
+
+### Running the App
+
+1. **Start Metro Bundler**
+   ```bash
 npm start
-
-# OR using Yarn
+   # or
 yarn start
 ```
 
-## Step 2: Build and run your app
+2. **Run on iOS**
+   ```bash
+   npm run ios
+   # or
+   yarn ios
+   ```
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+3. **Run on Android**
+   ```bash
 npm run android
-
-# OR using Yarn
+   # or
 yarn android
 ```
 
+## 📁 Project Structure
+
+```
+src/
+├── components/           # Reusable UI components
+│   ├── AppText.tsx      # Custom text component with typography
+│   ├── CustomStatusBar.tsx # Status bar management
+│   └── MovieCard.tsx    # Movie card component
+├── screens/             # Screen components
+│   ├── WatchScreen.tsx  # Main movie listing screen
+│   ├── SearchScreen.tsx # Movie search functionality
+│   ├── MovieDetailScreen.tsx # Movie details and booking
+│   ├── SeatBookingScreen.tsx # Date and showtime selection
+│   ├── SeatSelectionScreen.tsx # Interactive seat map
+│   ├── SimpleVideoPlayerScreen.tsx # Video player
+│   └── DashboardScreen.tsx # Dashboard/home screen
+├── navigation/          # Navigation configuration
+│   ├── AppNavigator.tsx # Main navigation setup
+│   ├── types.ts        # Navigation type definitions
+│   └── stacks/          # Stack navigators
+├── context/            # State management
+│   ├── ThemeContext.tsx # Theme management
+│   └── MovieContext.tsx # Movie data management
+├── api/                # API services
+│   ├── movieService.ts  # Movie data API
+│   └── movieTrailerService.ts # Trailer API
+├── hooks/              # Custom React hooks
+│   └── useHideBottomTabs.ts # Bottom tab visibility
+├── types/              # TypeScript type definitions
+├── constants/          # App constants
+│   └── colors.ts       # Color definitions
+└── assets/             # Static assets
+    ├── images/         # Image assets
+    └── fonts/          # Font files
+```
+
+## 🎨 Design System
+
+### Typography
+- **Primary Font**: Poppins
+- **Variants**: Regular, Medium, SemiBold, Bold
+- **Sizes**: xs, sm, md, lg, xl, xxl
+
+### Color Palette
+- **Primary**: #61C3F2 (Light Blue)
+- **Surface**: Dynamic based on theme
+- **Text**: Primary, Secondary, Light variants
+- **Status**: Success, Warning, Error states
+
+### Components
+- **AppText**: Consistent typography component
+- **MovieCard**: Standardized movie display
+- **CustomStatusBar**: Unified status bar management
+
+## 🔌 API Integration
+
+### TMDB (The Movie Database)
+- **Base URL**: `https://api.themoviedb.org/3`
+- **Endpoints**:
+  - `/movie/upcoming` - Get upcoming movies
+  - `/movie/{id}` - Get movie details
+  - `/movie/{id}/images` - Get movie images
+  - `/movie/{id}/videos` - Get movie trailers
+  - `/search/movie` - Search movies
+  - `/genre/movie/list` - Get movie genres
+
+### API Configuration
+```typescript
+// API configuration
+const API_CONFIG = {
+  BASE_URL: 'https://api.themoviedb.org/3',
+  API_KEY: process.env.TMDB_API_KEY,
+  IMAGE_BASE_URL: 'https://image.tmdb.org/t/p/w500'
+};
+```
+
+## 🎬 Screen Descriptions
+
+### Watch Screen
+- Displays upcoming movies in a responsive grid
+- Supports both portrait (2 columns) and landscape (3 columns) layouts
+- Pull-to-refresh functionality
+- Smooth scrolling with optimized performance
+
+### Search Screen
+- Real-time movie search with debouncing
+- Genre-based filtering with visual grid
+- Search results with detailed movie information
+- Dynamic result counter
+
+### Movie Detail Screen
+- Comprehensive movie information display
+- Responsive layout for portrait and landscape
+- Interactive trailer playback
+- Seat booking integration
+- Action buttons for booking and trailer
+
+### Seat Booking Screens
+- **SeatBookingScreen**: Date and showtime selection
+- **SeatSelectionScreen**: Interactive seat map with zoom functionality
+- Visual seat layout with different pricing tiers
+- Real-time seat availability and selection
+
+### Video Player Screen
+- Full-screen video playback
+- YouTube integration with custom controls
+- Auto-play and auto-close functionality
+- Responsive design for all orientations
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
+# Development
+npm start          # Start Metro bundler
+npm run ios        # Run on iOS simulator
+npm run android    # Run on Android emulator
+
+# Code Quality
+npm run lint       # Run ESLint
+npm test          # Run tests
+
+# Build
+npm run build:ios     # Build for iOS
+npm run build:android # Build for Android
+```
+
+### Code Style
+- **ESLint**: Configured with React Native rules
+- **Prettier**: Code formatting
+- **TypeScript**: Strict type checking
+- **Conventional Commits**: Standardized commit messages
+
+## 🔧 Configuration
+
+### Environment Variables
+```env
+# Required
+TMDB_API_KEY=your_api_key_here
+
+# Optional
+TMDB_BASE_URL=https://api.themoviedb.org/3
+DEBUG_MODE=false
+```
+
+### Metro Configuration
+- Custom resolver for worklets
+- Asset handling for fonts and images
+- TypeScript support
+
+### Babel Configuration
+- React Native preset
+- Environment variable support
+- Worklets support
+
+## 📱 Platform-Specific Features
+
 ### iOS
+- **Status Bar**: Custom handling with animations
+- **Safe Areas**: Proper safe area handling
+- **Gestures**: Native gesture support
+- **Performance**: Optimized for iOS rendering
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+### Android
+- **Status Bar**: Consistent white status bar
+- **Navigation**: Material Design principles
+- **Performance**: Optimized for Android rendering
+- **Permissions**: Proper permission handling
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## 🐛 Troubleshooting
 
-```sh
-bundle install
-```
+### Common Issues
 
-Then, and every time you update your native dependencies, run:
+1. **Metro bundler issues**
+   ```bash
+   npx react-native start --reset-cache
+   ```
 
-```sh
-bundle exec pod install
-```
+2. **iOS build issues**
+   ```bash
+   cd ios && pod install && cd ..
+   ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+3. **Android build issues**
+   ```bash
+   cd android && ./gradlew clean && cd ..
+   ```
 
-```sh
-# Using npm
-npm run ios
+4. **Status bar issues**
+   - Ensure CustomStatusBar is imported correctly
+   - Check platform-specific configurations
 
-# OR using Yarn
-yarn ios
-```
+### Debug Mode
+Enable debug mode by setting `DEBUG_MODE=true` in your environment variables.
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## 🤝 Contributing
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Step 3: Modify your app
+## 📄 License
 
-Now that you have successfully run the app, let's make changes!
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 🙏 Acknowledgments
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- **TMDB**: For providing the movie database API
+- **React Native Community**: For excellent tooling and libraries
+- **Poppins Font**: For beautiful typography
+- **Contributors**: All contributors who helped build this app
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## 📞 Support
 
-## Congratulations! :tada:
+For support, email support@example.com or create an issue in the repository.
 
-You've successfully run and modified your React Native App. :partying_face:
+---
 
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Built with ❤️ using React Native**

@@ -1,0 +1,1 @@
+export { useHideBottomTabs } from './useHideBottomTabs';

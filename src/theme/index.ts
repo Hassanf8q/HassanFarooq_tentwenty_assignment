@@ -1,0 +1,76 @@
+import { Theme } from '../types';
+import { colors, fonts } from '../constants';
+
+export const lightTheme: Theme = {
+  colors: {
+    primary: colors.primary,
+    secondary: colors.secondary,
+    background: colors.background,
+    surface: colors.surface,
+    bottomTabBackground: colors.bottomTabBackground,
+    textPrimary: colors.textPrimary,
+    textSecondary: colors.textSecondary,
+    textLight: colors.textLight,
+    border: colors.border,
+    teal: colors.teal,
+    pink: colors.pink,
+    purple: colors.purple,
+    gold: colors.gold,
+    success: colors.success,
+    error: colors.error,
+    warning: colors.warning,
+  },
+  fonts: {
+    regular: fonts.regular,
+    medium: fonts.medium,
+    semiBold: fonts.semiBold,
+    bold: fonts.bold,
+    weights: fonts.weights,
+    sizes: fonts.sizes,
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    xxl: 48,
+  },
+};
+
+export const darkTheme: Theme = {
+  colors: {
+    primary: colors.primary,
+    secondary: colors.secondary,
+    background: colors.darkBackground,
+    surface: colors.darkSurface,
+    bottomTabBackground: colors.darkBackground,
+    textPrimary: colors.darkTextPrimary,
+    textSecondary: colors.darkTextSecondary,
+    textLight: colors.textLight,
+    border: colors.darkBorder,
+    teal: colors.teal,
+    pink: colors.pink,
+    purple: colors.purple,
+    gold: colors.gold,
+    success: colors.success,
+    error: colors.error,
+    warning: colors.warning,
+  },
+  fonts: {
+    regular: fonts.regular,
+    medium: fonts.medium,
+    semiBold: fonts.semiBold,
+    bold: fonts.bold,
+    weights: fonts.weights,
+    sizes: fonts.sizes,
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    xxl: 48,
+  },
+};
