@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import screens
-import HomeScreen from '../../screens/HomeScreen';
+import MoreScreen from '../../screens/MoreScreen';
 import MovieDetailScreen from '../../screens/MovieDetailScreen';
 
 // Import types
@@ -15,7 +15,7 @@ const MoreStack = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="MoreMain"
-        component={HomeScreen}
+        component={MoreScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

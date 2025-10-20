@@ -114,11 +114,11 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ navigation }) => {
           <AppText variant="bold" size="xxl" color="textPrimary">
             Dashboard
           </AppText>
-          <TouchableOpacity onPress={toggleTheme} style={styles.themeButton}>
+          {/* <TouchableOpacity onPress={toggleTheme} style={styles.themeButton}>
             <AppText variant="medium" size="sm" color="primary">
               Toggle Theme
             </AppText>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {movieState.error && (
