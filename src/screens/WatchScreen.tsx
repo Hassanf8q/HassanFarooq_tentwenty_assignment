@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Image, RefreshControl, Dimensions, Platform } from 'react-native';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { View, StyleSheet, FlatList, TouchableOpacity, RefreshControl, Dimensions, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
 import { useMovies } from '../context/MovieContext';
@@ -9,7 +10,6 @@ import { Movie } from '../types';
 import { movieApiService } from '../api/movieService';
 import CustomStatusBar from '../components/CustomStatusBar';
 import images from '../assets/images';
-import { s, vs, spacing } from '../utils/responsive';
 import AppImage from '../components/AppImage';
 
 interface WatchScreenProps {
@@ -28,17 +28,76 @@ const WatchScreen: React.FC<WatchScreenProps> = ({ navigation }) => {
 
   const [refreshing, setRefreshing] = useState(false);
   const [screenData, setScreenData] = useState(Dimensions.get('window'));
+  const hasFetchedData = useRef(false);
 
   useEffect(() => {
-    fetchUpcomingMovies();
-    fetchGenres();
+    // Only fetch data once when component mounts
+    if (!hasFetchedData.current) {
+      fetchUpcomingMovies();
+      fetchGenres();
+      hasFetchedData.current = true;
+    }
     
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setScreenData(window);
     });
 
     return () => subscription?.remove();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array to prevent re-fetching
+
+  // Use ref to avoid dependency issues
+  const themeRef = useRef(theme);
+  themeRef.current = theme;
+
+  // Simple tab restoration when screen is focused - similar to MovieDetailScreen approach
+  useFocusEffect(
+    useCallback(() => {
+      // Restore tabs when WatchScreen is focused
+      const restoreTabs = () => {
+        const defaultTabBarStyle = {
+          position: 'absolute' as const,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: Platform.OS === 'ios' ? 90 : 68,
+          backgroundColor: themeRef.current.colors.bottomTabBackground || '#2E2739',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          borderTopWidth: 0,
+          paddingBottom: Platform.OS === 'ios' ? 25 : 10,
+          paddingTop: Platform.OS === 'ios' ? 8 : 6,
+          paddingHorizontal: 20,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 8,
+        };
+
+        // Try to find tab navigator by going up the hierarchy
+        let currentNav = navigation;
+        for (let i = 0; i < 5; i++) {
+          currentNav = currentNav.getParent();
+          if (currentNav) {
+            try {
+              currentNav.setOptions({
+                tabBarStyle: defaultTabBarStyle
+              });
+            } catch {
+              // Ignore errors
+            }
+          } else {
+            break;
+          }
+        }
+      };
+
+      restoreTabs();
+    }, [navigation])
+  );
 
   const handleMoviePress = (movie: Movie) => {
     navigation.navigate('MovieDetail', { movie });
@@ -69,6 +128,9 @@ const WatchScreen: React.FC<WatchScreenProps> = ({ navigation }) => {
 
   const renderMovieItem = ({ item }: { item: Movie }) => {
     const isLandscape = screenData.width > screenData.height;
+    const posterStyle = isLandscape 
+      ? StyleSheet.flatten([styles.moviePoster, styles.moviePosterLandscape])
+      : styles.moviePoster;
     
     return (
       <TouchableOpacity
@@ -78,7 +140,7 @@ const WatchScreen: React.FC<WatchScreenProps> = ({ navigation }) => {
       >
         <AppImage
           source={{ uri: getImageUrl(item.poster_path) }}
-          style={[styles.moviePoster, isLandscape && styles.moviePosterLandscape]}
+          style={posterStyle}
           fit="cover"
         />
         <LinearGradient

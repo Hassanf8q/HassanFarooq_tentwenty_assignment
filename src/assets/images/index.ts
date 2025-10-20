@@ -16,6 +16,13 @@ const images = {
   close: require('./close.png'),
 
 
+  // payments
+  card: require('./card.png'),
+  applepay: require('./applepay.png'),
+  googlepay: require('./googlepay.png'),
+  paypal: require('./paypal.png'),
+
+
 
 
 };
