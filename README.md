@@ -92,89 +92,182 @@ yarn android
 
 ## 📁 Project Structure
 
-The project follows a well-organized, scalable architecture:
+The project follows a well-organized, scalable architecture with clear separation of concerns:
 
-### **Root Level**
+### 🎯 **Core Application Structure**
+
 ```
 HassanFarooq_tentwenty_assignment/
-├── src/                    # Source code directory
-├── ios/                    # iOS platform files
-├── android/                # Android platform files
-├── App.tsx                 # Main application entry point
-├── package.json           # Dependencies and scripts
-├── README.md              # Project documentation
-├── CONTRIBUTING.md        # Contribution guidelines
-├── LICENSE                # MIT License
-└── CHANGELOG.md           # Version history
+│
+├── 📱 src/                                    # Main source code
+│   │
+│   ├── 🧩 components/                         # Reusable UI Components
+│   │   ├── AppText.tsx                       # Typography component
+│   │   ├── CustomStatusBar.tsx               # Status bar management
+│   │   └── MovieCard.tsx                     # Movie display card
+│   │
+│   ├── 📺 screens/                            # Screen Components
+│   │   ├── WatchScreen.tsx                   # Movie listing & discovery
+│   │   ├── SearchScreen.tsx                  # Movie search & filtering
+│   │   ├── MovieDetailScreen.tsx              # Movie details & booking
+│   │   ├── SeatBookingScreen.tsx              # Date & showtime selection
+│   │   ├── SeatSelectionScreen.tsx           # Interactive seat map
+│   │   ├── SimpleVideoPlayerScreen.tsx        # Video player
+│   │   └── DashboardScreen.tsx               # Home dashboard
+│   │
+│   ├── 🧭 navigation/                         # Navigation System
+│   │   ├── AppNavigator.tsx                   # Main navigation setup
+│   │   ├── types.ts                          # Navigation type definitions
+│   │   └── stacks/                           # Stack navigators
+│   │       ├── WatchStack.tsx                # Watch tab navigation
+│   │       ├── DashboardStack.tsx            # Dashboard tab navigation
+│   │       ├── MediaLibraryStack.tsx         # Media library navigation
+│   │       └── MoreStack.tsx                 # More tab navigation
+│   │
+│   ├── 🗃️ context/                           # State Management
+│   │   ├── ThemeContext.tsx                 # Theme & UI state
+│   │   └── MovieContext.tsx                  # Movie data state
+│   │
+│   ├── 🌐 api/                               # API Services
+│   │   ├── movieService.ts                   # Movie data API
+│   │   └── movieTrailerService.ts            # Trailer API
+│   │
+│   ├── 🪝 hooks/                             # Custom React Hooks
+│   │   └── useHideBottomTabs.ts              # Bottom tab visibility
+│   │
+│   ├── 📝 types/                             # TypeScript Definitions
+│   │   └── index.ts                          # Type definitions
+│   │
+│   ├── ⚙️ constants/                         # App Constants
+│   │   └── colors.ts                         # Color palette
+│   │
+│   └── 🎨 assets/                            # Static Assets
+│       ├── images/                           # Image assets
+│       │   ├── allseats.png                  # Seat layout icon
+│       │   ├── singleseat.png                # Individual seat icon
+│       │   ├── upperlayer.png                # Upper layer icon
+│       │   ├── dashboard.png                 # Dashboard tab icon
+│       │   ├── library.png                   # Library tab icon
+│       │   ├── menu.png                      # More tab icon
+│       │   └── watch.png                     # Watch tab icon
+│       └── fonts/                            # Font assets
+│           └── Poppins/                      # Poppins font family
+│
+├── 📱 ios/                                   # iOS Platform Files
+│   ├── HassanFarooq_tentwenty_assignment/    # iOS app source
+│   ├── Podfile                              # CocoaPods dependencies
+│   └── Podfile.lock                         # Locked dependencies
+│
+├── 🤖 android/                              # Android Platform Files
+│   ├── app/                                 # Android app source
+│   ├── build.gradle                         # Build configuration
+│   └── gradle.properties                    # Gradle properties
+│
+├── 📄 docs/                                 # Documentation
+│   ├── README.md                            # Project documentation
+│   ├── CONTRIBUTING.md                      # Contribution guidelines
+│   ├── CHANGELOG.md                         # Version history
+│   └── LICENSE                              # MIT License
+│
+├── ⚙️ config/                               # Configuration Files
+│   ├── package.json                         # Node.js dependencies
+│   ├── package-lock.json                    # Locked dependencies
+│   ├── tsconfig.json                        # TypeScript configuration
+│   ├── babel.config.js                      # Babel configuration
+│   ├── metro.config.js                      # Metro bundler configuration
+│   ├── jest.config.js                       # Jest testing configuration
+│   ├── .gitignore                           # Git ignore rules
+│   └── .env.example                         # Environment variables template
+│
+└── 📊 root/                                 # Root Application Files
+    ├── App.tsx                              # Main app component
+    ├── index.js                             # App entry point
+    └── react-native.config.js               # React Native configuration
 ```
 
-### **Source Code Structure (`src/`)**
+### 🏗️ **Architecture Layers**
 
-#### **Components** (`src/components/`)
-- `AppText.tsx` - Custom text component with Poppins typography
-- `CustomStatusBar.tsx` - Unified status bar management
-- `MovieCard.tsx` - Reusable movie display component
+#### **1. Presentation Layer** (`screens/` + `components/`)
+- **Screens**: Main application screens with business logic
+- **Components**: Reusable UI components for consistency
+- **Responsive Design**: Handles different screen sizes and orientations
 
-#### **Screens** (`src/screens/`)
-- `WatchScreen.tsx` - Main movie listing with responsive grid
-- `SearchScreen.tsx` - Movie search with genre filtering
-- `MovieDetailScreen.tsx` - Comprehensive movie information
-- `SeatBookingScreen.tsx` - Date and showtime selection
-- `SeatSelectionScreen.tsx` - Interactive seat map with zoom
-- `SimpleVideoPlayerScreen.tsx` - Full-screen video playback
-- `DashboardScreen.tsx` - Home screen with recommendations
+#### **2. Navigation Layer** (`navigation/`)
+- **App Navigator**: Main navigation configuration
+- **Stack Navigators**: Individual tab navigation stacks
+- **Type Safety**: TypeScript definitions for navigation
 
-#### **Navigation** (`src/navigation/`)
-- `AppNavigator.tsx` - Main navigation configuration
-- `types.ts` - Navigation type definitions
-- `stacks/` - Individual stack navigators
-  - `WatchStack.tsx` - Watch tab navigation
-  - `DashboardStack.tsx` - Dashboard navigation
-  - `MediaLibraryStack.tsx` - Media library navigation
-  - `MoreStack.tsx` - More options navigation
+#### **3. State Management Layer** (`context/`)
+- **Theme Context**: UI theme and styling state
+- **Movie Context**: Movie data and API state management
+- **Global State**: Shared state across components
 
-#### **State Management** (`src/context/`)
-- `ThemeContext.tsx` - Light/dark theme management
-- `MovieContext.tsx` - Movie data and API state
+#### **4. Data Layer** (`api/`)
+- **Movie Service**: TMDB API integration for movie data
+- **Trailer Service**: Video trailer API integration
+- **Error Handling**: Comprehensive API error management
 
-#### **API Services** (`src/api/`)
-- `movieService.ts` - TMDB API integration for movies
-- `movieTrailerService.ts` - Video trailer API calls
+#### **5. Business Logic Layer** (`hooks/`)
+- **Custom Hooks**: Reusable business logic
+- **Tab Management**: Bottom tab visibility control
+- **State Logic**: Complex state management patterns
 
-#### **Custom Hooks** (`src/hooks/`)
-- `useHideBottomTabs.ts` - Bottom tab visibility management
+#### **6. Configuration Layer** (`config/` + `constants/`)
+- **App Configuration**: Build and runtime configuration
+- **Constants**: App-wide constants and configurations
+- **Environment**: Environment-specific settings
 
-#### **Type Definitions** (`src/types/`)
-- TypeScript interfaces for movies, navigation, and components
+### 📂 **File Organization Principles**
 
-#### **Constants** (`src/constants/`)
-- `colors.ts` - Color palette and theme definitions
+#### **🎯 Separation of Concerns**
+- **UI Components**: Pure presentation components
+- **Business Logic**: Custom hooks and context
+- **Data Access**: API services and data fetching
+- **Configuration**: Settings and constants
 
-#### **Assets** (`src/assets/`)
-- `images/` - Image assets (icons, placeholders)
-- `fonts/` - Poppins font family files
+#### **🔄 Reusability**
+- **Components**: Highly reusable UI components
+- **Hooks**: Reusable business logic
+- **Services**: Reusable API calls
+- **Types**: Shared type definitions
 
-### **Key Architecture Decisions**
+#### **📱 Platform Support**
+- **iOS**: Native iOS configuration and dependencies
+- **Android**: Native Android configuration and dependencies
+- **Cross-Platform**: Shared React Native code
 
-#### **📱 Component Organization**
-- **Reusable Components**: Centralized in `components/` directory
-- **Screen Components**: Organized by feature in `screens/`
-- **Custom Hooks**: Shared logic in `hooks/` directory
+#### **🛠️ Development Experience**
+- **TypeScript**: Full type safety throughout
+- **Hot Reload**: Fast development iteration
+- **Testing**: Jest configuration for unit tests
+- **Linting**: ESLint for code quality
 
-#### **🔧 State Management**
-- **Context API**: Used for global state (theme, movies)
-- **Local State**: React hooks for component-specific state
-- **API State**: Centralized in context providers
+### 🎨 **Asset Organization**
 
-#### **🌐 API Integration**
-- **Service Layer**: Dedicated API service files
-- **Error Handling**: Comprehensive error management
-- **Type Safety**: Full TypeScript integration
+#### **Images** (`assets/images/`)
+- **UI Icons**: Tab icons and interface elements
+- **Seat Icons**: Seat booking interface assets
+- **App Icons**: Application branding assets
 
-#### **🎨 Styling & Theming**
-- **Theme System**: Centralized color and typography management
-- **Responsive Design**: Dynamic layouts for different orientations
-- **Custom Components**: Consistent UI components
+#### **Fonts** (`assets/fonts/`)
+- **Poppins Family**: Complete font family integration
+- **Typography**: Consistent text styling across app
+
+### 🔧 **Configuration Files**
+
+#### **Build Configuration**
+- **Metro**: JavaScript bundler configuration
+- **Babel**: JavaScript transpilation
+- **TypeScript**: Type checking and compilation
+
+#### **Development Tools**
+- **ESLint**: Code quality and style enforcement
+- **Jest**: Testing framework configuration
+- **Git**: Version control ignore rules
+
+#### **Platform Configuration**
+- **iOS**: CocoaPods and Xcode configuration
+- **Android**: Gradle build system configuration
 
 ## 🎨 Design System
 
