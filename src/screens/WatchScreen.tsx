@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Image, RefreshControl, Dimensions } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity, Image, RefreshControl, Dimensions, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
@@ -8,6 +8,9 @@ import { AppText } from '../components/AppText';
 import { Movie } from '../types';
 import { movieApiService } from '../api/movieService';
 import CustomStatusBar from '../components/CustomStatusBar';
+import images from '../assets/images';
+import { s, vs, spacing } from '../utils/responsive';
+import AppImage from '../components/AppImage';
 
 interface WatchScreenProps {
   navigation: any;
@@ -73,10 +76,10 @@ const WatchScreen: React.FC<WatchScreenProps> = ({ navigation }) => {
         onPress={() => handleMoviePress(item)}
         activeOpacity={0.8}
       >
-        <Image
+        <AppImage
           source={{ uri: getImageUrl(item.poster_path) }}
           style={[styles.moviePoster, isLandscape && styles.moviePosterLandscape]}
-          resizeMode="cover"
+          fit="cover"
         />
         <LinearGradient
           colors={['transparent', 'rgba(0,0,0,0.55)', 'rgba(0,0,0,1)']}
@@ -100,9 +103,7 @@ const WatchScreen: React.FC<WatchScreenProps> = ({ navigation }) => {
           Watch
         </AppText>
         <TouchableOpacity onPress={handleSearchPress} style={styles.searchButton}>
-          <AppText variant="medium" size="lg" color="textPrimary">
-            🔍
-          </AppText>
+          <AppImage source={images.search} size={17} />
         </TouchableOpacity>
       </View>
 
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   },
   moviePoster: {
     width: '100%',
-    height: 220,
+    height: Platform.OS === 'android' ? 180 : 220,
 
 
   },
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   moviePosterLandscape: {
-    height: 180,
+    height: Platform.OS === 'android' ? 150 : 180,
   },
 });
 

@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { Platform } from 'react-native';
 
 interface UseHideBottomTabsOptions {
   /**
@@ -103,15 +104,15 @@ export const useHideBottomTabs = (
       bottom: 0,
       left: 0,
       right: 0,
-      height: 90,
+      height: Platform.OS === 'ios' ? 90 : 68,
       backgroundColor: theme.colors.bottomTabBackground || '#2E2739',
       borderTopLeftRadius: 25,
       borderTopRightRadius: 25,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
       borderTopWidth: 0,
-      paddingBottom: 25,
-      paddingTop: 8,
+      paddingBottom: Platform.OS === 'ios' ? 25 : 10,
+      paddingTop: Platform.OS === 'ios' ? 8 : 6,
       paddingHorizontal: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: -2 },

@@ -5,13 +5,16 @@ import {
   TouchableOpacity, 
   ScrollView, 
   Dimensions,
-  Image 
+  Image,
+  Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../context/ThemeContext';
 import { AppText } from '../components/AppText';
 import { useHideBottomTabs } from '../hooks';
 import images from '../assets/images';
+import AppImage from '../components/AppImage';
+import { s, vs, spacing } from '../utils/responsive';
 import CustomStatusBar from '../components/CustomStatusBar';
 
 interface SeatBookingScreenProps {
@@ -26,7 +29,8 @@ interface SeatBookingScreenProps {
 const SeatBookingScreen: React.FC<SeatBookingScreenProps> = ({ navigation, route }) => {
   const { state } = useTheme();
   const { theme } = state;
-  const { width } = Dimensions.get('window');
+  const { width, height } = Dimensions.get('window');
+  const isLandscape = width > height;
 
   // Hide bottom tabs when this screen is focused
   useHideBottomTabs(navigation);
@@ -99,10 +103,14 @@ const SeatBookingScreen: React.FC<SeatBookingScreenProps> = ({ navigation, route
     return (
       <View style={styles.seatLayout}>
         {/* Use allseats.png icon directly */}
-        <Image 
+        <AppImage 
           source={images.allseats} 
-          style={styles.allseatsImage}
-          resizeMode="contain"
+          style={[
+            styles.allseatsImage,
+            Platform.OS === 'android' && isLandscape ? { height: 90 } : null,
+            Platform.OS === 'ios' && isLandscape ? { height: 100 } : null,
+          ]}
+          fit="contain"
         />
       </View>
     );
@@ -121,9 +129,7 @@ const SeatBookingScreen: React.FC<SeatBookingScreenProps> = ({ navigation, route
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-          <AppText variant="bold" size="xl" color="textPrimary">
-            ←
-          </AppText>
+          <AppImage source={images.back} size={15} />
         </TouchableOpacity>
         <View style={styles.headerContent}>
           <AppText variant="bold" size="lg" color="textPrimary">
@@ -328,8 +334,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   allseatsImage: {
-    width: 200,
-    height: 100,
+    width: "100%",
+    height: 120,
   },
   pricing: {
     textAlign: 'center',

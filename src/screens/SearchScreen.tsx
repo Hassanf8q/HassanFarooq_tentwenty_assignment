@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Dimensions, Keyboard, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
@@ -7,6 +7,9 @@ import { useMovies } from '../context/MovieContext';
 import { AppText } from '../components/AppText';
 import { Movie } from '../types';
 import { movieApiService } from '../api/movieService';
+import images from '../assets/images';
+import AppImage from '../components/AppImage';
+import { s, vs, spacing } from '../utils/responsive';
 
 const { width } = Dimensions.get('window');
 const itemWidth = (width - 60) / 2; // 2 columns with padding
@@ -38,6 +41,55 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
     clearSearchResults();
     fetchGenres();
   }, []);
+
+  // Hide bottom tabs when keyboard is open, restore on close
+  useEffect(() => {
+    const parent = navigation?.getParent?.();
+    if (!parent) return;
+
+    const hideTabs = () => {
+      try {
+        parent.setOptions({ tabBarStyle: [{ display: 'none' }] as any });
+      } catch {}
+    };
+
+    const showTabs = () => {
+      try {
+        parent.setOptions({
+          tabBarStyle: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: Platform.OS === 'ios' ? 90 : 68,
+            backgroundColor: theme.colors.bottomTabBackground || '#2E2739',
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            borderTopWidth: 0,
+            paddingBottom: Platform.OS === 'ios' ? 25 : 10,
+            paddingTop: Platform.OS === 'ios' ? 8 : 6,
+            paddingHorizontal: 20,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 8,
+          },
+        } as any);
+      } catch {}
+    };
+
+    const subShow = Keyboard.addListener('keyboardDidShow', hideTabs);
+    const subHide = Keyboard.addListener('keyboardDidHide', showTabs);
+
+    return () => {
+      subShow.remove();
+      subHide.remove();
+      showTabs();
+    };
+  }, [navigation, theme.colors]);
 
   const handleSearch = async (query: string, showHeader: boolean = false) => {
     if (query.trim().length < 2) {
@@ -195,9 +247,7 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
         {showResultsHeader && movieState.searchResults.length > 0 ? (
           <View style={styles.resultsHeader}>
             <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-              <AppText variant="medium" size="lg" color="textPrimary">
-                ←
-              </AppText>
+              <AppImage source={images.back} size={15} />
             </TouchableOpacity>
             <AppText variant="bold" size="lg" color="textPrimary">
               {movieState.searchResults.length} Results Found
@@ -206,14 +256,10 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
         ) : (
           <View style={styles.searchHeader}>
             <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-              <AppText variant="medium" size="lg" color="textPrimary">
-                ←
-              </AppText>
+              <AppImage source={images.back} size={15} />
             </TouchableOpacity>
             <View style={[styles.searchContainer, { backgroundColor: theme.colors.background }]}>
-              <AppText variant="medium" size="md" color="textSecondary">
-                🔍
-              </AppText>
+            <AppImage source={images.search} size={15} />
               <TextInput
                 style={[styles.searchInput, { color: theme.colors.textPrimary }]}
                 placeholder="TV shows, movies and more"
@@ -245,9 +291,7 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
               />
               {searchQuery.length > 0 && (
                 <TouchableOpacity onPress={handleClearSearch}>
-                  <AppText variant="medium" size="md" color="textSecondary">
-                    ✕
-                  </AppText>
+                 <AppImage source={images.close} size={17} />
                 </TouchableOpacity>
               )}
             </View>
@@ -281,6 +325,7 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   header: {
     paddingHorizontal: 20,
@@ -293,21 +338,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    marginRight: 12,
+    marginRight: 5,
     padding: 4,
+
   },
   searchContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 12,
+    paddingHorizontal: Platform.OS === 'android' ? 10 : 12,
+    paddingVertical: Platform.OS === 'android' ? 4 : 15,
+    borderRadius: Platform.OS === 'android' ? 80 : 50,
   },
   searchInput: {
     flex: 1,
-    marginLeft: 8,
-    fontSize: 16,
+    marginLeft: 5,
+    fontSize: Platform.OS === 'android' ? 15 : 16,
     fontFamily: 'Poppins-Regular',
   },
   resultsHeader: {
@@ -342,8 +388,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   movieThumbnail: {
-    width: 170,
-    height: 110,
+    width: Platform.OS === 'android' ? 135 : 170,
+    height: Platform.OS === 'android' ? 100 : 110,
     borderRadius: 12,
     marginRight: 16,
   },
@@ -353,7 +399,7 @@ const styles = StyleSheet.create({
   },
   movieTitle: {
     marginBottom: 6,
-    fontSize: 18,
+    fontSize: Platform.OS === 'android' ? 16 : 18,
   },
   movieGenre: {
     fontSize: 14,
@@ -364,7 +410,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   moreButtonText: {
-    fontSize: 24,
+    fontSize: Platform.OS === 'android' ? 22 : 24,
     fontWeight: 'bold',
   },
   emptyContainer: {
@@ -372,6 +418,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 60,
+   
   },
   emptyText: {
     textAlign: 'center',
@@ -386,6 +433,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginBottom:50
   },
   genreCard: {
     width: itemWidth,

@@ -5,7 +5,8 @@ import {
   TouchableOpacity, 
   ScrollView, 
   Dimensions,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../context/ThemeContext';
@@ -28,7 +29,8 @@ interface SeatSelectionScreenProps {
 const SeatSelectionScreen: React.FC<SeatSelectionScreenProps> = ({ navigation, route }) => {
   const { state } = useTheme();
   const { theme } = state;
-  const { width } = Dimensions.get('window');
+  const { width, height } = Dimensions.get('window');
+  const isLandscape = width > height;
 
   // Hide bottom tabs when this screen is focused
   useHideBottomTabs(navigation);
@@ -66,11 +68,11 @@ const SeatSelectionScreen: React.FC<SeatSelectionScreenProps> = ({ navigation, r
   ];
 
   const handleZoomIn = () => {
-    setScale(prev => Math.min(prev + 0.2, 2));
+    setScale(prev => Math.min(prev + 0.15, 1.8));
   };
 
   const handleZoomOut = () => {
-    setScale(prev => Math.max(prev - 0.2, 0.5));
+    setScale(prev => Math.max(prev - 0.15, 0.6));
   };
 
   const handleBackPress = () => {
@@ -141,7 +143,7 @@ const SeatSelectionScreen: React.FC<SeatSelectionScreenProps> = ({ navigation, r
         <View style={styles.upperLayerContainer}>
           <Image 
             source={images.upperlayer} 
-            style={styles.upperLayerImage}
+            style={[styles.upperLayerImage, Platform.OS === 'android' && { height: 34 }]}
             resizeMode="contain"
           />
         </View>
@@ -155,7 +157,11 @@ const SeatSelectionScreen: React.FC<SeatSelectionScreenProps> = ({ navigation, r
         </View>
         
         {/* Seat map with zoom */}
-        <View style={styles.zoomableContainer}>
+        <View style={[
+          styles.zoomableContainer,
+          Platform.OS === 'android' && (isLandscape ? { height: 260 } : { height: 300 }),
+          Platform.OS === 'ios' && isLandscape ? { height: 280 } : null,
+        ]}>
           <View 
             style={[
               styles.seatMapContent,
@@ -193,6 +199,8 @@ const SeatSelectionScreen: React.FC<SeatSelectionScreenProps> = ({ navigation, r
                       source={images.singleseat} 
                       style={[
                         styles.singleseatImage,
+                        Platform.OS === 'android' && (isLandscape ? { width: 16, height: 16 } : { width: 18, height: 18 }),
+                        Platform.OS === 'ios' && isLandscape ? { width: 17, height: 17 } : null,
                         { tintColor: getSeatTintColor(seatId, rowIndex) }
                       ]}
                       resizeMode="contain"
@@ -224,9 +232,15 @@ const SeatSelectionScreen: React.FC<SeatSelectionScreenProps> = ({ navigation, r
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-          <AppText variant="bold" size="xl" color="textPrimary">
-            ←
-          </AppText>
+        <Image 
+              source={images.back} 
+              style={{ 
+                width: 15, 
+                height: 15, 
+                
+              }} 
+              resizeMode="contain"
+            />
         </TouchableOpacity>
         <View style={styles.headerContent}>
           <AppText variant="bold" size="lg" color="textPrimary">
@@ -408,18 +422,18 @@ const styles = StyleSheet.create({
   seatRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: Platform.OS === 'android' ? 4 : 6,
     justifyContent: 'flex-start',
-    paddingHorizontal: 20,
+    paddingHorizontal: Platform.OS === 'android' ? 16 : 20,
   },
   rowNumber: {
-    width: 30,
+    width: Platform.OS === 'android' ? 26 : 30,
     textAlign: 'center',
-    marginRight: 12,
-    fontSize: 12,
+    marginRight: Platform.OS === 'android' ? 10 : 12,
+    fontSize: Platform.OS === 'android' ? 11 : 12,
   },
   seatContainer: {
-    marginHorizontal: 3,
+    marginHorizontal: Platform.OS === 'android' ? 2 : 3,
   },
   singleseatImage: {
     width: 20,
@@ -427,18 +441,18 @@ const styles = StyleSheet.create({
   },
   zoomControls: {
     position: 'absolute',
-    right: 10,
-    bottom: 10,
+    right: Platform.OS === 'android' ? 8 : 10,
+    bottom: Platform.OS === 'android' ? 8 : 10,
     flexDirection: 'row',
   },
   zoomButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: Platform.OS === 'android' ? 28 : 32,
+    height: Platform.OS === 'android' ? 28 : 32,
+    borderRadius: Platform.OS === 'android' ? 14 : 16,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 8,
+    marginLeft: Platform.OS === 'android' ? 6 : 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

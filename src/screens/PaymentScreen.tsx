@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert , Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../context/ThemeContext';
 import { AppText } from '../components/AppText';
 import { useHideBottomTabs } from '../hooks';
+import images from '../assets/images';
 
 interface PaymentScreenProps {
   navigation: any;
@@ -42,9 +43,15 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ navigation, route }) => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-          <AppText variant="bold" size="xl" color="textPrimary">
-            ←
-          </AppText>
+        <Image 
+              source={images.back} 
+              style={{ 
+                width: 15, 
+                height: 15, 
+                
+              }} 
+              resizeMode="contain"
+            />
         </TouchableOpacity>
         <AppText variant="bold" size="lg" color="textPrimary">
           Payment

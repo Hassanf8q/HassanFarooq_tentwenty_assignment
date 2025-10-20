@@ -41,8 +41,8 @@ const BottomTabs = () => {
             <Image 
               source={iconSource} 
               style={{ 
-                width: 22, 
-                height: 22, 
+                width: Platform.OS === 'android' ? 18 : 22, 
+                height: Platform.OS === 'android' ? 18 : 22, 
                 tintColor: color,
                 opacity: focused ? 1 : 0.6 
               }} 
@@ -57,15 +57,15 @@ const BottomTabs = () => {
           bottom: 0,
           left: 0,
           right: 0,
-          height: Platform.OS === 'ios' ? 90 : 80,
+          height: Platform.OS === 'ios' ? 90 : 68,
           backgroundColor: theme.colors.bottomTabBackground || '#2E2739',
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           borderTopWidth: 0,
-          paddingBottom: Platform.OS === 'ios' ? 25 : 15,
-          paddingTop: 8,
+          paddingBottom: Platform.OS === 'ios' ? 25 : 10,
+          paddingTop: Platform.OS === 'ios' ? 8 : 6,
           paddingHorizontal: 20,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -2 },

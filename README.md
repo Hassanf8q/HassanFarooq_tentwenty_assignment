@@ -98,78 +98,64 @@ The project follows a well-organized, scalable architecture with clear separatio
 
 ```
 HassanFarooq_tentwenty_assignment/
-│
-├── 📱 src/                                    # Main source code
-│   │
-│   ├── 🧩 components/                         # Reusable UI Components
-│   │   ├── AppText.tsx                       # Typography component
-│   │   ├── CustomStatusBar.tsx               # Status bar management
-│   │   └── MovieCard.tsx                     # Movie display card
-│   │
-│   ├── 📺 screens/                            # Screen Components
-│   │   ├── WatchScreen.tsx                   # Movie listing & discovery
-│   │   ├── SearchScreen.tsx                  # Movie search & filtering
-│   │   ├── MovieDetailScreen.tsx              # Movie details & booking
-│   │   ├── SeatBookingScreen.tsx              # Date & showtime selection
-│   │   ├── SeatSelectionScreen.tsx           # Interactive seat map
-│   │   ├── SimpleVideoPlayerScreen.tsx        # Video player
-│   │   └── DashboardScreen.tsx               # Home dashboard
-│   │
-│   ├── 🧭 navigation/                         # Navigation System
-│   │   ├── AppNavigator.tsx                   # Main navigation setup
-│   │   ├── types.ts                          # Navigation type definitions
-│   │   └── stacks/                           # Stack navigators
-│   │       ├── WatchStack.tsx                # Watch tab navigation
-│   │       ├── DashboardStack.tsx            # Dashboard tab navigation
-│   │       ├── MediaLibraryStack.tsx         # Media library navigation
-│   │       └── MoreStack.tsx                 # More tab navigation
-│   │
-│   ├── 🗃️ context/                           # State Management
+├── src/                                     # Main source code
+│   ├── components/                          # Reusable UI Components
+│   │   ├── AppText.tsx                      # Typography component
+│   │   ├── CustomStatusBar.tsx              # Status bar management
+│   │   └── MovieCard.tsx                   # Movie display card
+│   ├── screens/                             # Screen Components
+│   │   ├── WatchScreen.tsx                  # Movie listing & discovery
+│   │   ├── SearchScreen.tsx                 # Movie search & filtering
+│   │   ├── MovieDetailScreen.tsx             # Movie details & booking
+│   │   ├── SeatBookingScreen.tsx             # Date & showtime selection
+│   │   ├── SeatSelectionScreen.tsx          # Interactive seat map
+│   │   ├── SimpleVideoPlayerScreen.tsx       # Video player
+│   │   └── DashboardScreen.tsx              # Home dashboard
+│   ├── navigation/                          # Navigation System
+│   │   ├── AppNavigator.tsx                 # Main navigation setup
+│   │   ├── types.ts                         # Navigation type definitions
+│   │   └── stacks/                          # Stack navigators
+│   │       ├── WatchStack.tsx               # Watch tab navigation
+│   │       ├── DashboardStack.tsx           # Dashboard tab navigation
+│   │       ├── MediaLibraryStack.tsx        # Media library navigation
+│   │       └── MoreStack.tsx                # More tab navigation
+│   ├── context/                             # State Management
 │   │   ├── ThemeContext.tsx                 # Theme & UI state
-│   │   └── MovieContext.tsx                  # Movie data state
-│   │
-│   ├── 🌐 api/                               # API Services
-│   │   ├── movieService.ts                   # Movie data API
-│   │   └── movieTrailerService.ts            # Trailer API
-│   │
-│   ├── 🪝 hooks/                             # Custom React Hooks
-│   │   └── useHideBottomTabs.ts              # Bottom tab visibility
-│   │
-│   ├── 📝 types/                             # TypeScript Definitions
-│   │   └── index.ts                          # Type definitions
-│   │
-│   ├── ⚙️ constants/                         # App Constants
-│   │   └── colors.ts                         # Color palette
-│   │
-│   └── 🎨 assets/                            # Static Assets
-│       ├── images/                           # Image assets
-│       │   ├── allseats.png                  # Seat layout icon
-│       │   ├── singleseat.png                # Individual seat icon
-│       │   ├── upperlayer.png                # Upper layer icon
-│       │   ├── dashboard.png                 # Dashboard tab icon
-│       │   ├── library.png                   # Library tab icon
-│       │   ├── menu.png                      # More tab icon
-│       │   └── watch.png                     # Watch tab icon
-│       └── fonts/                            # Font assets
-│           └── Poppins/                      # Poppins font family
-│
-├── 📱 ios/                                   # iOS Platform Files
-│   ├── HassanFarooq_tentwenty_assignment/    # iOS app source
+│   │   └── MovieContext.tsx                 # Movie data state
+│   ├── api/                                 # API Services
+│   │   ├── movieService.ts                  # Movie data API
+│   │   └── movieTrailerService.ts           # Trailer API
+│   ├── hooks/                               # Custom React Hooks
+│   │   └── useHideBottomTabs.ts             # Bottom tab visibility
+│   ├── types/                               # TypeScript Definitions
+│   │   └── index.ts                         # Type definitions
+│   ├── constants/                           # App Constants
+│   │   └── colors.ts                        # Color palette
+│   └── assets/                              # Static Assets
+│       ├── images/                          # Image assets
+│       │   ├── allseats.png                 # Seat layout icon
+│       │   ├── singleseat.png               # Individual seat icon
+│       │   ├── upperlayer.png               # Upper layer icon
+│       │   ├── dashboard.png                # Dashboard tab icon
+│       │   ├── library.png                  # Library tab icon
+│       │   ├── menu.png                     # More tab icon
+│       │   └── watch.png                    # Watch tab icon
+│       └── fonts/                           # Font assets
+│           └── Poppins/                     # Poppins font family
+├── ios/                                     # iOS Platform Files
+│   ├── HassanFarooq_tentwenty_assignment/   # iOS app source
 │   ├── Podfile                              # CocoaPods dependencies
 │   └── Podfile.lock                         # Locked dependencies
-│
-├── 🤖 android/                              # Android Platform Files
+├── android/                                 # Android Platform Files
 │   ├── app/                                 # Android app source
 │   ├── build.gradle                         # Build configuration
 │   └── gradle.properties                    # Gradle properties
-│
-├── 📄 docs/                                 # Documentation
+├── docs/                                    # Documentation
 │   ├── README.md                            # Project documentation
 │   ├── CONTRIBUTING.md                      # Contribution guidelines
 │   ├── CHANGELOG.md                         # Version history
 │   └── LICENSE                              # MIT License
-│
-├── ⚙️ config/                               # Configuration Files
+├── config/                                  # Configuration Files
 │   ├── package.json                         # Node.js dependencies
 │   ├── package-lock.json                    # Locked dependencies
 │   ├── tsconfig.json                        # TypeScript configuration
@@ -178,8 +164,7 @@ HassanFarooq_tentwenty_assignment/
 │   ├── jest.config.js                       # Jest testing configuration
 │   ├── .gitignore                           # Git ignore rules
 │   └── .env.example                         # Environment variables template
-│
-└── 📊 root/                                 # Root Application Files
+└── root/                                    # Root Application Files
     ├── App.tsx                              # Main app component
     ├── index.js                             # App entry point
     └── react-native.config.js               # React Native configuration

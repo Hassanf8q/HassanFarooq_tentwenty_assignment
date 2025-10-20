@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions, Alert, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
 import { AppText } from '../components/AppText';
@@ -8,6 +8,9 @@ import { movieApiService } from '../api/movieService';
 import { movieTrailerService } from '../api/movieTrailerService';
 import { useHideBottomTabs } from '../hooks';
 import CustomStatusBar from '../components/CustomStatusBar';
+import images from '../assets/images';
+import AppImage from '../components/AppImage';
+import { s, vs, spacing } from '../utils/responsive';
 
 interface MovieDetailScreenProps {
   navigation: any;
@@ -131,9 +134,7 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ navigation, route
             {/* Header Overlay */}
             <View style={styles.landscapeHeaderOverlay}>
               <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-                <AppText variant="medium" weight="bold" size="xxl" color="textLight">
-                  ←
-                </AppText>
+                <AppImage source={images.back} size={15} tintColor={'white'} />
               </TouchableOpacity>
               <AppText variant="bold" weight="bold" size="xxl" color="textLight">
                 Watch
@@ -155,7 +156,11 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ navigation, route
             {/* Action Buttons */}
             <View style={styles.landscapeButtonsContainer}>
               <TouchableOpacity
-                style={[styles.landscapeGetTicketsButton, { backgroundColor: theme.colors.primary }]}
+                style={[
+                  styles.landscapeGetTicketsButton,
+                  { backgroundColor: theme.colors.primary },
+                  Platform.OS === 'android' && { paddingVertical: 10, paddingHorizontal: 12, borderRadius: 6 }
+                ]}
                 onPress={handleGetTickets}
               >
                 <AppText variant="bold" size="lg" weight="semiBold" color="textLight">
@@ -164,10 +169,14 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ navigation, route
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.landscapeWatchTrailerButton, { borderColor: theme.colors.textLight }]}
+                style={[
+                  styles.landscapeWatchTrailerButton,
+                  { borderColor: theme.colors.textLight },
+                  Platform.OS === 'android' && { paddingVertical: 8, paddingHorizontal: 10, borderRadius: 6, marginLeft: 6 }
+                ]}
                 onPress={handleWatchTrailer}
               >
-                <AppText variant="medium" size="md" color="textLight" style={styles.playIcon}>
+                <AppText variant="medium" size="md" color="textLight" style={[styles.playIcon, Platform.OS === 'android' && { marginRight: 6 }]}>
                   ▶
                 </AppText>
                 <AppText variant="bold" size="lg" weight="semiBold" color="textLight">
@@ -254,9 +263,7 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ navigation, route
             {/* Header Overlay */}
             <View style={[styles.headerOverlay, styles.headerOverlayPortrait]}>
               <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-                <AppText variant="bold" weight="bold" size="xxl" color="textLight">
-                  ←
-                </AppText>
+                <AppImage source={images.back} size={15} tintColor={'white'} />
               </TouchableOpacity>
               <AppText variant="bold" weight="bold" size="xl" color="textLight">
                 Watch
@@ -347,7 +354,7 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ navigation, route
                 <AppText variant="bold" size="xl" color="textPrimary" style={styles.sectionTitle}>
                   Overview
                 </AppText>
-                <AppText variant="regular" size="md" color="textSecondary" style={styles.overviewText}>
+                <AppText variant="regular" size="sm" weight='regular' color="textSecondary" style={styles.overviewText}>
                   {movie.overview}
                 </AppText>
               </View>
@@ -392,22 +399,22 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 170,
+    height: Platform.OS === 'android' ? 140 : 170,
     width: '100%',
     justifyContent: 'flex-end',
   },
   movieInfoOverlay: {
     position: 'absolute',
-    bottom: 80,
-    left: 20,
-    right: 20,
+    bottom: Platform.OS === 'android' ? 70 : 80,
+    left: Platform.OS === 'android' ? 16 : 20,
+    right: Platform.OS === 'android' ? 16 : 20,
     alignItems: 'center',
   },
   movieTitle: {
     textShadowColor: 'rgba(0,0,0,0.8)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
-    marginBottom: 8,
+    marginBottom: Platform.OS === 'android' ? 5 : 8,
   },
   releaseDate: {
     textShadowColor: 'rgba(0,0,0,0.8)',
@@ -416,27 +423,27 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
+    bottom: Platform.OS === 'android' ? 16 : 20,
+    left: Platform.OS === 'android' ? 16 : 20,
+    right: Platform.OS === 'android' ? 16 : 20,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: Platform.OS === 'android' ? 16 : 20,
   },
   getTicketsButton: {
     width: '80%',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    paddingVertical: Platform.OS === 'android' ? 10 : 12,
+    paddingHorizontal: Platform.OS === 'android' ? 16 : 20,
+    borderRadius: Platform.OS === 'android' ? 8 : 8,
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: Platform.OS === 'android' ? 10 : 12,
   },
   watchTrailerButton: {
     width: '80%',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    paddingVertical: Platform.OS === 'android' ? 10 : 12,
+    paddingHorizontal: Platform.OS === 'android' ? 16 : 20,
+    borderRadius: Platform.OS === 'android' ? 8 : 8,
     borderWidth: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
@@ -444,29 +451,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   playIcon: {
-    marginRight: 8,
+    marginRight: Platform.OS === 'android' ? 6 : 8,
   },
   detailsSection: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 24,
+    paddingHorizontal: Platform.OS === 'android' ? 16 : 20,
+    paddingVertical: Platform.OS === 'android' ? 20 : 24,
     marginTop: -20,
     minHeight: 300,
   },
   genresContainer: {
-    paddingVertical: 15,
-    marginBottom: 24,
+    paddingVertical: Platform.OS === 'android' ? 10 : 15,
+    marginBottom: Platform.OS === 'android' ? 1 : 24,
   },
   sectionTitle: {
    
-    marginBottom: 16,
-    fontSize: 20,
+    marginBottom: Platform.OS === 'android' ? 10 : 16,
+    fontSize: Platform.OS === 'android' ? 18 : 20,
   },
   divider: {
     height: 1,
     backgroundColor: '#E5E5E5',
-    marginTop: 20,
+    marginTop: Platform.OS === 'android' ? 10 : 20,
     marginBottom: 4,
   },
   genresList: {
@@ -475,18 +482,18 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   genreTag: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    marginRight: 8,
-    marginBottom: 8,
+    paddingHorizontal: Platform.OS === 'android' ? 10 : 12,
+    paddingVertical: Platform.OS === 'android' ? 5 : 6,
+    borderRadius: Platform.OS === 'android' ? 14 : 16,
+    marginRight: Platform.OS === 'android' ? 6 : 8,
+    marginBottom: Platform.OS === 'android' ? 6 : 8,
   },
   overviewContainer: {
     
     // Overview container styling
   },
   overviewText: {
-    lineHeight: 22,
+    lineHeight: Platform.OS === 'android' ? 20 : 22,
   },
   // Landscape Layout Styles
   landscapeContainer: {

@@ -11,6 +11,13 @@ const images = {
   singleseat: require('./singleseat.png'),
   upperlayer: require('./upperlayer.png'),
 
+  search: require('./search.png'),
+  back: require('./back.png'),
+  close: require('./close.png'),
+
+
+
+
 };
 
 export default images;
